@@ -4,7 +4,7 @@ pipeline {
         stage('Setup Local Environment') {
             steps {
                 echo '-- RUNNING LOCAL ENVIORNMENT --'
-                bash '''
+                sh '''
                 #!/usr/bin/bash
                 apt-get update
                 apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
@@ -20,7 +20,7 @@ pipeline {
         stage('INSTALLING PIP') {
             steps {
                 echo '-- INSTALLING PIP --'
-                bash '''
+                sh '''
                 #!/usr/bin/bash
                 pip install -U pip
                 '''
@@ -32,7 +32,7 @@ pipeline {
         stage('INSTALLING Ansible') {
             steps {
                 echo '-- INSTALLING Ansible --'
-                bash '''
+                sh '''
                 #!/usr/bin/bash
                 pip install 'ansible-core'
                 '''
@@ -43,7 +43,7 @@ pipeline {
         stage('INSTALLING Kolla Ansible') {
             steps {
                 echo '-- INSTALLING Kolla Ansible --'
-                bash '''
+                sh '''
                 #!/usr/bin/bash
                 pip install git+https://opendev.org/openstack/kolla-ansible@master
                 kolla-ansible install-deps
@@ -56,7 +56,7 @@ pipeline {
         stage('Preparing Infrastructure') {
             steps {
                 echo '-- Preparing Infrastructure Files Structure --'
-                bash '''
+                sh '''
                 #!/usr/bin/bash
                 mkdir -p /etc/kolla
                 chown $USER:$USER /etc/kolla
@@ -75,7 +75,7 @@ pipeline {
         stage('Secrets Setup') {
             steps {
                 echo '-- Generating OpenStack Services Secrets --'
-                bash '''
+                sh '''
                 #!/usr/bin/bash
                 kolla-genpwd -p /etc/kolla/passwords.yml
                 '''
@@ -86,7 +86,7 @@ pipeline {
         stage('Boostrap Servers') {
             steps {
                 echo '-- Running Ansible Kolla Boostrap Server Script --'
-                bash '''
+                sh '''
                 #!/usr/bin/bash
                 kolla-ansible -i /etc/kolla/all-in-one bootstrap-servers
                 '''
@@ -98,7 +98,7 @@ pipeline {
         stage('Infrastructure Pre-Checks') {
             steps {
                 echo '-- Running Ansible Kolla Prechecks Script --'
-                bash '''#!/usr/bin/bash
+                sh '''#!/usr/bin/bash
                 kolla-ansible -i /etc/kolla/all-in-one prechecks
                 '''
                 
@@ -108,7 +108,7 @@ pipeline {
         stage('Deploy Infrastructure') {
             steps {
                 echo '-- Running Ansible Kolla Prechecks Script --'
-                bash '''
+                sh '''
                 #!/usr/bin/bash
                 kolla-ansible -i /etc/kolla/all-in-one deploy
                 '''
