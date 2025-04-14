@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        VENV_PATH = "${WORKSPACE}/local"
+        VENV_ACTIVATE = "${WORKSPACE}/local/bin/activate"
+    }
     stages {
         stage('Setup Local Environment') {
             steps {
@@ -22,6 +26,7 @@ pipeline {
                 echo '-- INSTALLING PIP --'
                 sh '''
                 #!/usr/bin/bash
+                . local/bin/activate
                 pip install -U pip
                 '''
                 
@@ -34,6 +39,7 @@ pipeline {
                 echo '-- INSTALLING Ansible --'
                 sh '''
                 #!/usr/bin/bash
+                . local/bin/activate
                 pip install 'ansible-core'
                 '''
                 
@@ -45,7 +51,9 @@ pipeline {
                 echo '-- INSTALLING Kolla Ansible --'
                 sh '''
                 #!/usr/bin/bash
+                . local/bin/activate
                 pip install git+https://opendev.org/openstack/kolla-ansible@master
+                . local/bin/activate
                 kolla-ansible install-deps
                 '''
                 
@@ -58,6 +66,7 @@ pipeline {
                 echo '-- Preparing Infrastructure Files Structure --'
                 sh '''
                 #!/usr/bin/bash
+                
                 mkdir -p /etc/kolla
                 chown $USER:$USER /etc/kolla
                 cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
@@ -77,6 +86,7 @@ pipeline {
                 echo '-- Generating OpenStack Services Secrets --'
                 sh '''
                 #!/usr/bin/bash
+                . local/bin/activate
                 kolla-genpwd -p /etc/kolla/passwords.yml
                 '''
                 
@@ -88,6 +98,7 @@ pipeline {
                 echo '-- Running Ansible Kolla Boostrap Server Script --'
                 sh '''
                 #!/usr/bin/bash
+                . local/bin/activate
                 kolla-ansible -i /etc/kolla/all-in-one bootstrap-servers
                 '''
                 
@@ -98,7 +109,9 @@ pipeline {
         stage('Infrastructure Pre-Checks') {
             steps {
                 echo '-- Running Ansible Kolla Prechecks Script --'
-                sh '''#!/usr/bin/bash
+                sh '''
+                #!/usr/bin/bash
+                . local/bin/activate
                 kolla-ansible -i /etc/kolla/all-in-one prechecks
                 '''
                 
@@ -110,6 +123,7 @@ pipeline {
                 echo '-- Running Ansible Kolla Prechecks Script --'
                 sh '''
                 #!/usr/bin/bash
+                . local/bin/activate
                 kolla-ansible -i /etc/kolla/all-in-one deploy
                 '''
                 
