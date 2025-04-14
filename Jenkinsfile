@@ -27,6 +27,8 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
+                export http_proxy=http://192.168.11.10:800
+                export https_proxy=http://192.168.11.10:800
                 pip install -U pip
                 '''
                 
@@ -40,6 +42,8 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
+                export http_proxy=http://192.168.11.10:800
+                export https_proxy=http://192.168.11.10:800
                 pip install 'ansible-core'
                 '''
                 
@@ -52,8 +56,12 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
+                export http_proxy=http://192.168.11.10:800
+                export https_proxy=http://192.168.11.10:800
                 pip install git+https://opendev.org/openstack/kolla-ansible@master
                 . local/bin/activate
+                export http_proxy=http://192.168.11.10:800
+                export https_proxy=http://192.168.11.10:800
                 kolla-ansible install-deps
                 '''
                 
@@ -87,6 +95,8 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
+                export http_proxy=http://192.168.11.10:800
+                export https_proxy=http://192.168.11.10:800
                 kolla-genpwd -p /etc/kolla/passwords.yml
                 '''
                 
@@ -99,6 +109,8 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
+                export http_proxy=http://192.168.11.10:800
+                export https_proxy=http://192.168.11.10:800
                 kolla-ansible -i /etc/kolla/all-in-one bootstrap-servers
                 '''
                 
@@ -112,6 +124,8 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
+                export http_proxy=http://192.168.11.10:800
+                export https_proxy=http://192.168.11.10:800
                 kolla-ansible -i /etc/kolla/all-in-one prechecks
                 '''
                 
@@ -124,6 +138,8 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
+                export http_proxy=http://192.168.11.10:800
+                export https_proxy=http://192.168.11.10:800
                 kolla-ansible -i /etc/kolla/all-in-one deploy
                 '''
                 
