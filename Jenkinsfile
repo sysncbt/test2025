@@ -76,9 +76,9 @@ pipeline {
                 #!/usr/bin/bash
                 
                 mkdir -p /etc/kolla
-                chown $USER:$USER /etc/kolla
-                cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
-                cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
+                chown $(whoami):$(whoami) /etc/kolla
+                cp -r ${WORKSPACE}/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
+                cp -r ${WORKSPACE}/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
                 sed -i 's/^#kolla_base_distro:.ls*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
                 sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/ kolla/globals.yml
                 sed -i 's/^#network_interface:.*/network_interface: "eth0"/g' /etc/kolla/globals.yml
