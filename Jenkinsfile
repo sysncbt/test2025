@@ -4,14 +4,14 @@ pipeline {
         stage('Setup Local Environment') {
             steps {
                 echo '-- RUNNING LOCAL ENVIORNMENT --'
-                sh '''
-                #!/bin/bash
+                bash '''
+                #!/usr/bin/bash
                 apt-get update
                 apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
                 apt install python3-pip -y
                 apt install python3-venv -y
                 python3 -m venv local
-                . local/bin/activate
+                source local/bin/activate
                 '''
                 
             }
@@ -20,8 +20,8 @@ pipeline {
         stage('INSTALLING PIP') {
             steps {
                 echo '-- INSTALLING PIP --'
-                sh '''
-                #!/bin/bash
+                bash '''
+                #!/usr/bin/bash
                 pip install -U pip
                 '''
                 
@@ -32,8 +32,8 @@ pipeline {
         stage('INSTALLING Ansible') {
             steps {
                 echo '-- INSTALLING Ansible --'
-                sh '''
-                #!/bin/bash
+                bash '''
+                #!/usr/bin/bash
                 pip install 'ansible-core'
                 '''
                 
@@ -43,8 +43,8 @@ pipeline {
         stage('INSTALLING Kolla Ansible') {
             steps {
                 echo '-- INSTALLING Kolla Ansible --'
-                sh '''
-                #!/bin/bash
+                bash '''
+                #!/usr/bin/bash
                 pip install git+https://opendev.org/openstack/kolla-ansible@master
                 kolla-ansible install-deps
                 '''
@@ -56,8 +56,8 @@ pipeline {
         stage('Preparing Infrastructure') {
             steps {
                 echo '-- Preparing Infrastructure Files Structure --'
-                sh '''
-                #!/bin/bash
+                bash '''
+                #!/usr/bin/bash
                 mkdir -p /etc/kolla
                 chown $USER:$USER /etc/kolla
                 cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
@@ -75,8 +75,8 @@ pipeline {
         stage('Secrets Setup') {
             steps {
                 echo '-- Generating OpenStack Services Secrets --'
-                sh '''
-                #!/bin/bash
+                bash '''
+                #!/usr/bin/bash
                 kolla-genpwd -p /etc/kolla/passwords.yml
                 '''
                 
@@ -86,8 +86,8 @@ pipeline {
         stage('Boostrap Servers') {
             steps {
                 echo '-- Running Ansible Kolla Boostrap Server Script --'
-                sh '''
-                #!/bin/bash
+                bash '''
+                #!/usr/bin/bash
                 kolla-ansible -i /etc/kolla/all-in-one bootstrap-servers
                 '''
                 
@@ -98,7 +98,7 @@ pipeline {
         stage('Infrastructure Pre-Checks') {
             steps {
                 echo '-- Running Ansible Kolla Prechecks Script --'
-                sh '''#!/bin/bash
+                bash '''#!/usr/bin/bash
                 kolla-ansible -i /etc/kolla/all-in-one prechecks
                 '''
                 
@@ -108,8 +108,8 @@ pipeline {
         stage('Deploy Infrastructure') {
             steps {
                 echo '-- Running Ansible Kolla Prechecks Script --'
-                sh '''
-                #!/bin/bash
+                bash '''
+                #!/usr/bin/bash
                 kolla-ansible -i /etc/kolla/all-in-one deploy
                 '''
                 
