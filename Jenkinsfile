@@ -80,7 +80,7 @@ pipeline {
                 cp -r ${WORKSPACE}/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
                 cp -r ${WORKSPACE}/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
                 sed -i 's/^#kolla_base_distro:.ls*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
-                sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/ kolla/globals.yml
+                sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
                 sed -i 's/^#network_interface:.*/network_interface: "eth0"/g' /etc/kolla/globals.yml
                 sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "eth1"/g' /etc/kolla/globals.yml
                 sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "10.0.2.15"/g' /etc/kolla/globals.yml
