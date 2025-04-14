@@ -111,7 +111,7 @@ pipeline {
                 . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
-                kolla-ansible -i /etc/kolla/all-in-one bootstrap-servers
+                kolla-ansible bootstrap-servers -i /etc/kolla/all-in-one
                 '''
                 
             }
@@ -126,7 +126,7 @@ pipeline {
                 . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
-                kolla-ansible -i /etc/kolla/all-in-one prechecks
+                kolla-ansible prechecks -i /etc/kolla/all-in-one
                 '''
                 
             }
@@ -140,7 +140,7 @@ pipeline {
                 . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
-                kolla-ansible -i /etc/kolla/all-in-one deploy
+                kolla-ansible deploy -i /etc/kolla/all-in-one
                 '''
                 
             }
