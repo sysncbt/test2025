@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Setup Local Environment') {
             steps {
-                echo '--RUNNING LOCAL ENVIORNMENT --'
+                echo '-- RUNNING LOCAL ENVIORNMENT --'
                 sh '''
                 #!/bin/bash
                 apt-get update
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('INSTALLING PIP') {
             steps {
-                echo '--INSTALLING PIP --'
+                echo '-- INSTALLING PIP --'
                 sh '''
                 #!/bin/bash
                 pip install -U pip
@@ -31,7 +31,7 @@ pipeline {
         
         stage('INSTALLING Ansible') {
             steps {
-                echo '--INSTALLING Ansible --'
+                echo '-- INSTALLING Ansible --'
                 sh '''
                 #!/bin/bash
                 pip install 'ansible-core>=2.16,<2.17.99'
