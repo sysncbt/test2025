@@ -9,7 +9,7 @@ pipeline {
                 apt-get update
                 apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
                 apt install python3-pip -y
-                apt install python3.10-venv -y
+                apt install python3-venv -y
                 python3 -m venv local
                 source local/bin/activate
                 '''
@@ -34,7 +34,7 @@ pipeline {
                 echo '-- INSTALLING Ansible --'
                 sh '''
                 #!/bin/bash
-                pip install 'ansible-core>=2.16,<2.17.99'
+                pip install 'ansible-core'
                 '''
                 
             }
