@@ -5,12 +5,12 @@ pipeline {
             steps {
                 echo '--RUNNING LOCAL ENVIORNMENT --'
                 sh ''' #!/bin/bash
-                sudo apt-get update
-                sudo apt-get install \
+                 apt-get update
+                 apt-get install \
                 python3-dev libffi-dev gcc libssl-dev docker.io -ySetting up a development environment 67
-                sudo apt install python3-pip -y
-                sudo apt install python3.10-venv -y
-                sudo python3 -m venv local
+                 apt install python3-pip -y
+                 apt install python3.10-venv -y
+                 python3 -m venv local
                 source local/bin/activate
                 '''
                 
@@ -55,8 +55,8 @@ pipeline {
             steps {
                 echo '--Preparing Infrastructure Files Structure --'
                 sh ''' #!/bin/bash
-                sudo mkdir -p /etc/kolla
-                sudo chown $USER:$USER /etc/kolla
+                 mkdir -p /etc/kolla
+                 chown $USER:$USER /etc/kolla
                 cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* \
                 /etc/kolla/
                 cp -r /usr/local/share/kolla-ansible/ansible/inventory/* \
