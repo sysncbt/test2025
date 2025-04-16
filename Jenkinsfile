@@ -16,7 +16,7 @@ pipeline {
                 sudo apt install python3-venv -y
                 sudo systemctl restart docker.service
                 sudo python3 -m venv local
-                sudo . local/bin/activate
+                . local/bin/activate
                 '''
                 
             }
@@ -27,7 +27,7 @@ pipeline {
                 echo '-- INSTALLING PIP --'
                 sh '''
                 #!/usr/bin/bash
-                sudo . local/bin/activate
+                . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
                 sudo pip install -U pip
@@ -42,7 +42,7 @@ pipeline {
                 echo '-- INSTALLING Ansible --'
                 sh '''
                 #!/usr/bin/bash
-                sudo . local/bin/activate
+                . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
                 sudo pip install 'ansible-core'
@@ -56,11 +56,11 @@ pipeline {
                 echo '-- INSTALLING Kolla Ansible --'
                 sh '''
                 #!/usr/bin/bash
-                sudo . local/bin/activate
+                . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
                 sudo pip install git+https://opendev.org/openstack/kolla-ansible@master
-                sudo . local/bin/activate
+                . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
                 sudo kolla-ansible install-deps
@@ -96,7 +96,7 @@ pipeline {
                 echo '-- Generating OpenStack Services Secrets --'
                 sh '''
                 #!/usr/bin/bash
-                sudo . local/bin/activate
+                . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
                 sudo kolla-genpwd -p /etc/kolla/passwords.yml
@@ -110,7 +110,7 @@ pipeline {
                 echo '-- Running Ansible Kolla Boostrap Server Script --'
                 sh '''
                 #!/usr/bin/bash
-                sudo . local/bin/activate
+                . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
                 sudo kolla-ansible bootstrap-servers -i /etc/kolla/all-in-one
@@ -125,7 +125,7 @@ pipeline {
                 echo '-- Running Ansible Kolla Prechecks Script --'
                 sh '''
                 #!/usr/bin/bash
-                sudo . local/bin/activate
+                . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
                 sudo kolla-ansible prechecks -i /etc/kolla/all-in-one
@@ -139,7 +139,7 @@ pipeline {
                 echo '-- Running Ansible Kolla Prechecks Script --'
                 sh '''
                 #!/usr/bin/bash
-                sudo . local/bin/activate
+                . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
                 sudo kolla-ansible deploy -i /etc/kolla/all-in-one
