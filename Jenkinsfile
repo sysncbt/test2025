@@ -113,6 +113,7 @@ pipeline {
                 . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
+                sudo systemctl restart docker.service
                 sudo kolla-ansible bootstrap-servers -i /etc/kolla/all-in-one
                 '''
                 
@@ -128,6 +129,7 @@ pipeline {
                 . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
+                sudo systemctl restart docker.service
                 sudo kolla-ansible prechecks -i /etc/kolla/all-in-one
                 '''
                 
@@ -142,6 +144,7 @@ pipeline {
                 . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
+                sudo systemctl restart docker.service
                 sudo kolla-ansible deploy -i /etc/kolla/all-in-one
                 '''
                 
