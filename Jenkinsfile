@@ -80,8 +80,8 @@ pipeline {
                 
                 sudo mkdir -p /etc/kolla
                 sudo chown $(whoami):$(whoami) /etc/kolla
-                sudo cp -r ${WORKSPACE}/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
-                sudo cp -r ${WORKSPACE}/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
+                sudo cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
+                sudo cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
                 sudo sed -i 's/^#kolla_base_distro:.ls*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#network_interface:.*/network_interface: "ens3"/g' /etc/kolla/globals.yml
