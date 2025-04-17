@@ -10,10 +10,12 @@ pipeline {
                 echo '-- RUNNING LOCAL ENVIORNMENT --'
                 sh '''
                 #!/usr/bin/bash
+                /* 
                 sudo apt-get update
-                sudo apt-get install python3 python3-dev libffi-dev gcc libssl-dev -y
+                sudo apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
                 sudo apt install python3-pip -y
                 sudo apt install python3-venv -y
+                */
                 sudo systemctl restart docker.service
                 sudo python3 -m venv local
                 . local/bin/activate
@@ -45,7 +47,7 @@ pipeline {
                 . local/bin/activate
                 export http_proxy=http://192.168.11.10:800
                 export https_proxy=http://192.168.11.10:800
-                sudo pip install 'ansible-core'
+                sudo pip install ansible-core
                 '''
                 
             }
@@ -82,10 +84,10 @@ pipeline {
                 sudo cp -r ${WORKSPACE}/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
                 sudo sed -i 's/^#kolla_base_distro:.ls*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#network_interface:.*/network_interface: "eth0"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "eth1"/g' /etc/kolla/globals.yml
+                sudo sed -i 's/^#network_interface:.*/network_interface: "ens3"/g' /etc/kolla/globals.yml
+                sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "10.0.2.15"/g' /etc/kolla/globals.yml
-                sudo sed -i -e 's|localhost.*ansible_connection.*|192.168.7.15 ansible_host=192.168.7.15 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa|g' /etc/kolla/all-in-one
+                // sudo sed -i -e 's|localhost.*ansible_connection.*|192.168.7.15 ansible_host=192.168.7.15 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa|g' /etc/kolla/all-in-one
                 '''
                 
             }
