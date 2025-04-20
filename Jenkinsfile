@@ -30,8 +30,9 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
-                export http_proxy=http://192.168.11.10:800
-                export https_proxy=http://192.168.11.10:800
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo pip install -U pip
                 '''
                 
@@ -45,8 +46,9 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
-                export http_proxy=http://192.168.11.10:800
-                export https_proxy=http://192.168.11.10:800
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo pip install ansible-core
                 '''
                 
@@ -59,12 +61,14 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
-                export http_proxy=http://192.168.11.10:800
-                export https_proxy=http://192.168.11.10:800
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo pip install git+https://opendev.org/openstack/kolla-ansible@master
                 . local/bin/activate
-                export http_proxy=http://192.168.11.10:800
-                export https_proxy=http://192.168.11.10:800
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo kolla-ansible install-deps
                 '''
                 
@@ -99,8 +103,9 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
-                export http_proxy=http://192.168.11.10:800
-                export https_proxy=http://192.168.11.10:800
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo kolla-genpwd -p /etc/kolla/passwords.yml
                 '''
                 
@@ -113,8 +118,9 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
-                export http_proxy=http://192.168.11.10:800
-                export https_proxy=http://192.168.11.10:800
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
                 sudo kolla-ansible bootstrap-servers -i /etc/kolla/all-in-one
                 '''
@@ -129,8 +135,9 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
-                export http_proxy=http://192.168.11.10:800
-                export https_proxy=http://192.168.11.10:800
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
                 sudo kolla-ansible prechecks -i /etc/kolla/all-in-one
                 '''
@@ -144,8 +151,9 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 . local/bin/activate
-                export http_proxy=http://192.168.11.10:800
-                export https_proxy=http://192.168.11.10:800
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
                 sudo kolla-ansible deploy -i /etc/kolla/all-in-one
                 '''
