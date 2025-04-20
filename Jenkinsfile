@@ -85,9 +85,9 @@ pipeline {
                 sudo sed -i 's/^#kolla_base_distro:.ls*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#network_interface:.*/network_interface: "ens3"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.19"/g' /etc/kolla/globals.yml
-                # sudo sed -i -e 's|localhost.*ansible_connection.*|192.168.7.15 ansible_host=192.168.7.15 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa|g' /etc/kolla/all-in-one
+                sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens3"/g' /etc/kolla/globals.yml
+                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.15"/g' /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_proxysql:.*/enable_proxysql: "no"/g' /etc/kolla/globals.yml
                 '''
                 
             }
