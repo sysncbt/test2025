@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent any 
     environment {
         VENV_PATH = "${WORKSPACE}/local"
         VENV_ACTIVATE = "${WORKSPACE}/local/bin/activate"
