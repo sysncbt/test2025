@@ -90,7 +90,7 @@ pipeline {
                 sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#network_interface:.*/network_interface: "ens11"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.19"/g' /etc/kolla/globals.yml
+                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.25"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_proxysql:.*/enable_proxysql: "no"/g' /etc/kolla/globals.yml
                 '''
                 
