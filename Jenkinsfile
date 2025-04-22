@@ -84,9 +84,13 @@ pipeline {
                 
                 sudo mkdir -p /etc/kolla
                 sudo chown $(whoami):$(whoami) /etc/kolla
+                if [ ! -d "/usr/local/share/kolla-ansible" ]; then
+                   echo "Kolla-Ansible files not found! Ensure kolla-ansible is installed." >&2
+                   exit 1
+                fi
                 sudo cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
                 sudo cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
-                sudo sed -i 's/^#kolla_base_distro:.ls*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
+                sudo sed -i 's/^#kolla_base_distro:.*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#network_interface:.*/network_interface: "ens11"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/g' /etc/kolla/globals.yml
