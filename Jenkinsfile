@@ -92,9 +92,9 @@ pipeline {
                 sudo cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
                 sudo sed -i 's/^#kolla_base_distro:.*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#network_interface:.*/network_interface: "ens11"/g' /etc/kolla/globals.yml
+                sudo sed -i 's/^#network_interface:.*/network_interface: "ens3"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.25"/g' /etc/kolla/globals.yml
+                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.15"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_proxysql:.*/enable_proxysql: "no"/g' /etc/kolla/globals.yml
                 '''
                 
@@ -126,7 +126,7 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
-                sudo kolla-ansible bootstrap-servers -i /etc/kolla/all-in-one
+                sudo kolla-ansible bootstrap-servers -i /etc/kolla/all-in-one -vvv
                 '''
                 
             }
@@ -143,7 +143,7 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
-                sudo kolla-ansible prechecks -i /etc/kolla/all-in-one
+                sudo kolla-ansible prechecks -i /etc/kolla/all-in-one -vvv
                 '''
                 
             }
@@ -159,7 +159,7 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
-                sudo kolla-ansible deploy -i /etc/kolla/all-in-one
+                sudo kolla-ansible deploy -i /etc/kolla/all-in-one -vvv
                 '''
                 
             }
