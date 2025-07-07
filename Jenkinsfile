@@ -14,7 +14,7 @@ pipeline {
                 # sudo apt-get update
                 # sudo apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
                 # sudo apt install python3-pip -y
-                # sudo apt install python3-venv -y
+                ## sudo apt install python3-venv -y
                 
                 sudo systemctl restart docker.service
                 sudo python3 -m venv local
