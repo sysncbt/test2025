@@ -166,6 +166,31 @@ pipeline {
             
         }
         
+
+        stage('Post-Deployment Tasks') {
+            steps {
+                echo '-- Running Post-Deployment Tasks --'
+                sh '''
+                #!/usr/bin/bash
+                . local/bin/activate
+                export http_proxy="http://192.168.11.10:800"
+                export https_proxy="http://192.168.11.10:800"
+                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
+
+                # Run the kolla-ansible post-deploy script
+                sudo kolla-ansible post-deploy -i /etc/kolla/all-in-one -vvv
+
+                # Source the OpenRC file for Octavia
+                source /etc/kolla/octavia-openrc.sh
+
+                # Optional: Verify the environment is set correctly
+                # You can uncomment the line below to see if the variables are loaded.
+                env | grep OS_
+                '''
+            }
+        }
+
+
     }
     
 }
