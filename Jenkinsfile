@@ -10,6 +10,11 @@ pipeline {
                 echo '-- RUNNING LOCAL ENVIORNMENT --'
                 sh '''
                 #!/usr/bin/bash
+
+                # Clean up any existing virtual environment
+                rm -rf local
+                    
+
                 
                 # sudo apt-get update
                 # sudo apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
@@ -19,6 +24,12 @@ pipeline {
                 sudo systemctl restart docker.service
                 sudo python3 -m venv local
                 . local/bin/activate
+
+                # Verify
+                echo "Python path: $(which python)"
+                echo "Pip path: $(which pip)"
+                echo "VIRTUAL_ENV: $VIRTUAL_ENV"
+
                 '''
                 
             }
@@ -65,6 +76,10 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo pip install git+https://opendev.org/openstack/kolla-ansible@master
+                sudo pip install 'jinja2>=3.0.0'
+                sudo pip install 'netaddr'
+                sudo pip install 'python-openstackclient'
+
                 . local/bin/activate
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
