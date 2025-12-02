@@ -83,13 +83,14 @@ pipeline {
                 #!/usr/bin/bash
                 
                 sudo mkdir -p /etc/kolla
+                sudo mkdir -p /etc/kolla/inventory/
                 sudo chown $(whoami):$(whoami) /etc/kolla
                 if [ ! -d "/usr/local/share/kolla-ansible" ]; then
                    echo "Kolla-Ansible files not found! Ensure kolla-ansible is installed." >&2
                    exit 1
                 fi
                 sudo cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
-                sudo cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/
+                sudo cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/inventory/
                 sudo sed -i 's/^#enable_zun:.*/enable_zun: "yes"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_kuryr:.*/enable_kuryr: "yes"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#containerd_configure_for_zun:.*/containerd_configure_for_zun: "yes"/g' /etc/kolla/globals.yml
