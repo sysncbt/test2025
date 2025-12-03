@@ -12,21 +12,19 @@ pipeline {
                 #!/usr/bin/bash
 
                 # Clean up any existing virtual environment
-                rm -rf local
+                rm -rf $VENV_PATH
                     
-
-                
                 # sudo apt-get update
                 # sudo apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
                 # sudo apt install python3-pip -y
                 ## sudo apt install python3-venv -y
                 
                 sudo systemctl restart docker.service
-                sudo python3.11 -m venv local
-                . local/bin/activate
+                sudo python3 -m venv local
+                source $VENV_ACTIVATE
 
                 # Verify
-                echo "Python path: $(which python)"
+                echo "Python path: $(which python3)"
                 echo "Pip path: $(which pip)"
                 echo "VIRTUAL_ENV: $VIRTUAL_ENV"
 
@@ -40,11 +38,14 @@ pipeline {
                 echo '-- INSTALLING PIP --'
                 sh '''
                 #!/usr/bin/bash
-                . local/bin/activate
+
+                source $VENV_ACTIVATE
+
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo pip install -U pip
+
                 '''
                 
             }
@@ -56,11 +57,14 @@ pipeline {
                 echo '-- INSTALLING Ansible --'
                 sh '''
                 #!/usr/bin/bash
-                . local/bin/activate
+
+
+                source $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo pip install ansible-core
+
                 '''
                 
             }
@@ -71,20 +75,18 @@ pipeline {
                 echo '-- INSTALLING Kolla Ansible --'
                 sh '''
                 #!/usr/bin/bash
-                . local/bin/activate
+
+                source $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
+
                 sudo pip install git+https://opendev.org/openstack/kolla-ansible@master
                 sudo pip install 'jinja2>=3.0.0'
                 sudo pip install 'netaddr'
                 sudo pip install 'python-openstackclient'
-
-                . local/bin/activate
-                export http_proxy="http://192.168.11.10:800"
-                export https_proxy="http://192.168.11.10:800"
-                export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo kolla-ansible install-deps
+
                 '''
                 
             }
@@ -96,7 +98,8 @@ pipeline {
                 echo '-- Preparing Infrastructure Files Structure --'
                 sh '''
                 #!/usr/bin/bash
-                
+
+                source $VENV_ACTIVATE                
                 sudo mkdir -p /etc/kolla
                 sudo mkdir -p /etc/kolla/inventory/
                 sudo chown $(whoami):$(whoami) /etc/kolla
@@ -104,8 +107,11 @@ pipeline {
                    echo "Kolla-Ansible files not found! Ensure kolla-ansible is installed." >&2
                    exit 1
                 fi
+                
+
                 sudo cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
                 sudo cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/inventory/
+                
                 sudo sed -i 's/^#enable_zun:.*/enable_zun: "yes"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_kuryr:.*/enable_kuryr: "yes"/g' /etc/kolla/globals.yml
                 sudo sed -i 's/^#containerd_configure_for_zun:.*/containerd_configure_for_zun: "yes"/g' /etc/kolla/globals.yml
@@ -136,11 +142,13 @@ pipeline {
                 echo '-- Generating OpenStack Services Secrets --'
                 sh '''
                 #!/usr/bin/bash
-                . local/bin/activate
+                
+                source $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo kolla-genpwd -p /etc/kolla/passwords.yml
+                
                 '''
                 
             }
@@ -151,7 +159,9 @@ pipeline {
                 echo '-- Running Ansible Kolla Boostrap Server Script --'
                 sh '''
                 #!/usr/bin/bash
-                . local/bin/activate
+                
+
+                source $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -168,7 +178,8 @@ pipeline {
                 echo '-- Running Ansible Kolla Prechecks Script --'
                 sh '''
                 #!/usr/bin/bash
-                . local/bin/activate
+
+                source $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -184,7 +195,9 @@ pipeline {
                 echo '-- Running Ansible Kolla Prechecks Script --'
                 sh '''
                 #!/usr/bin/bash
-                . local/bin/activate
+
+
+                source $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -202,7 +215,9 @@ pipeline {
                 echo '-- Running Post-Deployment Tasks --'
                 sh '''
                 #!/usr/bin/bash
-                . local/bin/activate
+
+
+                source $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
