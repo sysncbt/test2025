@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     environment {
-        VENV_PATH = "${WORKSPACE}/local"
+        VENV_PATH = "${WORKSPACE}"
         VENV_ACTIVATE = "${WORKSPACE}/local/bin/activate"
     }
     stages {
@@ -12,7 +12,7 @@ pipeline {
                 #!/usr/bin/bash
 
                 # Clean up any existing virtual environment
-                rm -rf $VENV_PATH
+                rm -rf $VENV_PATH*
                     
                 # sudo apt-get update
                 # sudo apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
@@ -21,7 +21,7 @@ pipeline {
                 
                 sudo systemctl restart docker.service
                 sudo python3 -m venv local
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
 
                 # Verify
                 echo "Python path: $(which python3)"
@@ -39,7 +39,7 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
 
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
 
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
@@ -59,7 +59,7 @@ pipeline {
                 #!/usr/bin/bash
 
 
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -76,7 +76,7 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
 
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -99,7 +99,7 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
 
-                source $VENV_ACTIVATE                
+                . $VENV_ACTIVATE                
                 sudo mkdir -p /etc/kolla
                 sudo mkdir -p /etc/kolla/inventory/
                 sudo chown $(whoami):$(whoami) /etc/kolla
@@ -143,7 +143,7 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
                 
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -161,7 +161,7 @@ pipeline {
                 #!/usr/bin/bash
                 
 
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -179,7 +179,7 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
 
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -197,7 +197,7 @@ pipeline {
                 #!/usr/bin/bash
 
 
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -217,7 +217,7 @@ pipeline {
                 #!/usr/bin/bash
 
 
-                source $VENV_ACTIVATE
+                . $VENV_ACTIVATE
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
@@ -225,8 +225,8 @@ pipeline {
                 # Run the kolla-ansible post-deploy script
                 sudo kolla-ansible post-deploy -i /etc/kolla/all-in-one -vvv
 
-                # Source the OpenRC file for Octavia
-                source /etc/kolla/octavia-openrc.sh
+                # . the OpenRC file for Octavia
+                . /etc/kolla/octavia-openrc.sh
 
                 # Optional: Verify the environment is set correctly
                 # You can uncomment the line below to see if the variables are loaded.
