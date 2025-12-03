@@ -92,25 +92,26 @@ pipeline {
                 sudo cp -r "$KOLLA_SHARE/ansible/inventory/all-in-one" /etc/kolla/
 
                 # Customize globals.yml
-                sudo sed -i 's/^#enable_zun:.*/enable_zun: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_kuryr:.*/enable_kuryr: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#containerd_configure_for_zun:.*/containerd_configure_for_zun: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_etcd:.*/enable_etcd: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#docker_configure_for_zun:.*/docker_configure_for_zun: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#kolla_base_distro:.*/kolla_base_distro: "ubuntu"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#network_interface:.*/network_interface: "ens3"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.15"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_proxysql:.*/enable_proxysql: "no"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_ovn_distributed_fip:.*/neutron_ovn_distributed_fip: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_enable_ovn_agent:.*/neutron_enable_ovn_agent: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_manila:.*/enable_manila: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_plugin_agent:.*/neutron_plugin_agent: "ovn"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_manila_backend_generic:.*/enable_manila_backend_generic: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_cinder_backend_nfs:.*/enable_cinder_backend_nfs: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_cinder_backend_lvm:.*/enable_cinder_backend_lvm: "yes"/' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_package_install:.*/enable_package_install: "no"/' /etc/kolla/globals.yml || sudo echo 'enable_package_install: "no"' | sudo tee -a /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_zun:.*/enable_zun: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_kuryr:.*/enable_kuryr: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#containerd_configure_for_zun:.*/containerd_configure_for_zun: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_etcd:.*/enable_etcd: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#docker_configure_for_zun:.*/docker_configure_for_zun: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#kolla_base_distro:.*/kolla_base_distro: "ubuntu"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#network_interface:.*/network_interface: "ens3"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.15"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_proxysql:.*/enable_proxysql: "no"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#neutron_ovn_distributed_fip:.*/neutron_ovn_distributed_fip: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#neutron_enable_ovn_agent:.*/neutron_enable_ovn_agent: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_manila:.*/enable_manila: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#neutron_plugin_agent:.*/neutron_plugin_agent: "ovn"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_manila_backend_generic:.*/enable_manila_backend_generic: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_cinder_backend_nfs:.*/enable_cinder_backend_nfs: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_cinder_backend_lvm:.*/enable_cinder_backend_lvm: "yes"/'g /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_package_install:.*/enable_package_install: "no"/'g /etc/kolla/globals.yml || \
+                echo 'enable_package_install: "no"' | sudo tee -a /etc/kolla/globals.yml
 
                 '''
             }
