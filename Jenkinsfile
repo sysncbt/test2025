@@ -40,16 +40,6 @@ pipeline {
             }
         }
 
-        stage('Install System Dependencies') {
-            steps {
-                sh '''
-                #!/bin/bash
-                #apt update
-                #apt install -y git iputils-ping tzdata docker.io
-                #systemctl enable --now docker
-                '''
-            }
-        }
 
         stage('Install Kolla-Ansible and Dependencies') {
             steps {
@@ -141,7 +131,7 @@ pipeline {
         }
 
 
-       stage('Install System Dependencies') {
+       stage('Install System Dependencies latest') {
            steps {
                sh '''
                #!/bin/bash
