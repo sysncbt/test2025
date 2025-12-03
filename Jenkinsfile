@@ -140,6 +140,25 @@ pipeline {
             }
         }
 
+
+       stage('Install System Dependencies') {
+           steps {
+               sh '''
+               #!/bin/bash
+               # Install required OS packages manually (bypass Kolla's apt task)
+               sudo apt update
+               sudo apt install -y git iputils-ping tzdata
+
+               # Disable package management in Kolla
+               if ! grep -q "enable_package_install" /etc/kolla/globals.yml; then
+                  echo 'enable_package_install: "no"' >> $VENV_PATH/etc/kolla/globals.yml
+               fi
+               '''
+            }
+        }
+
+
+
         stage('Bootstrap Servers') {
             steps {
                 echo '-- Running bootstrap-servers --'
