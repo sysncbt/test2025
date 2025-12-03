@@ -114,9 +114,11 @@ pipeline {
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
 
                 # Get template if not exists (kolla-genpwd requires it)
-                if [ ! -f /etc/kolla/passwords.yml ]; then
-                    cp "$VIRTUAL_ENV/share/kolla-ansible/etc_examples/kolla/passwords.yml" ./passwords.yml
-                fi
+                #if [ ! -f /etc/kolla/passwords.yml ]; then
+                #    cp "$VIRTUAL_ENV/share/kolla-ansible/etc_examples/kolla/passwords.yml" ./passwords.yml
+                #fi
+
+                cp "$VIRTUAL_ENV/share/kolla-ansible/etc_examples/kolla/passwords.yml" ./passwords.yml
 
                 kolla-genpwd -p ./passwords.yml
 
