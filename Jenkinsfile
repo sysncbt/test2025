@@ -22,7 +22,7 @@ pipeline {
                 ## sudo apt install python3-venv -y
                 
                 sudo systemctl restart docker.service
-                sudo python3 -m venv local
+                sudo python3.11 -m venv local
                 . local/bin/activate
 
                 # Verify
