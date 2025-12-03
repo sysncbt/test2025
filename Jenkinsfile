@@ -99,7 +99,7 @@ pipeline {
                 sed -i 's/^#enable_manila_backend_generic:.*/enable_manila_backend_generic: "yes"/'g $VENV_PATH/etc/kolla/globals.yml
                 sed -i 's/^#enable_cinder_backend_nfs:.*/enable_cinder_backend_nfs: "yes"/'g $VENV_PATH/etc/kolla/globals.yml
                 sed -i 's/^#enable_cinder_backend_lvm:.*/enable_cinder_backend_lvm: "yes"/'g $VENV_PATH/etc/kolla/globals.yml
-                sed -i '$a\\enable_package_install: "no"' $VENV_PATH/etc/kolla/globals.yml
+                sed -i '$a\\debian_pkg_install: []\nubuntu_pkg_removals: []' $VENV_PATH/etc/kolla/globals.yml
 
                 '''
             }
@@ -139,10 +139,6 @@ pipeline {
                sudo apt update
                sudo apt install -y git iputils-ping tzdata
 
-               # Disable package management in Kolla
-               if ! grep -q "enable_package_install" /etc/kolla/globals.yml; then
-                  echo 'enable_package_install: "no"' >> $VENV_PATH/etc/kolla/globals.yml
-               fi
                '''
             }
         }
@@ -159,7 +155,7 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
 
-                kolla-ansible bootstrap-servers -i $VENV_PATH/etc/kolla/all-in-one -vvv
+                kolla-ansible bootstrap-servers --configdir $VENV_PATH/etc/kolla -i $VENV_PATH/etc/kolla/all-in-one  -vvv
                 '''
             }
         }
@@ -174,7 +170,7 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
 
-                kolla-ansible prechecks -i $VENV_PATH/etc/kolla/all-in-one -vvv
+                kolla-ansible prechecks --configdir $VENV_PATH/etc/kolla -i $VENV_PATH/etc/kolla/all-in-one -vvv
                 '''
             }
         }
@@ -189,7 +185,7 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
 
-                kolla-ansible deploy -i $VENV_PATH/etc/kolla/all-in-one -vvv
+                kolla-ansible deploy --configdir $VENV_PATH/etc/kolla -i $VENV_PATH/etc/kolla/all-in-one -vvv
                 '''
             }
         }
@@ -204,7 +200,7 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
 
-                kolla-ansible post-deploy -i $VENV_PATH/etc/kolla/all-in-one -vvv
+                kolla-ansible post-deploy --configdir $VENV_PATH/etc/kolla -i $VENV_PATH/etc/kolla/all-in-one -vvv
 
                 # Source and verify Octavia OpenRC (optional)
                 if [ -f $VENV_PATH/etc/kolla/octavia-openrc.sh ]; then
