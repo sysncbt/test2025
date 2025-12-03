@@ -115,10 +115,12 @@ pipeline {
 
                 # Get template if not exists (kolla-genpwd requires it)
                 if [ ! -f /etc/kolla/passwords.yml ]; then
-                    sudo cp "$VIRTUAL_ENV/share/kolla-ansible/etc_examples/kolla/passwords.yml" /etc/kolla/
+                    cp "$VIRTUAL_ENV/share/kolla-ansible/etc_examples/kolla/passwords.yml" ./passwords.yml
                 fi
 
-                kolla-genpwd -p /etc/kolla/passwords.yml
+                kolla-genpwd -p ./passwords.yml
+
+                sudo cp ./passwords.yml /etc/kolla/
                 sudo chmod 600 /etc/kolla/passwords.yml
                 '''
             }
