@@ -11,7 +11,7 @@ pipeline {
                 sh '''
                 #!/usr/bin/bash
 
-                # Clean up any existing virtual environment
+                ## Clean up any existing virtual environment
                 rm -rf $VENV_PATH
                     
                 # sudo apt-get update
