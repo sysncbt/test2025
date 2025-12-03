@@ -14,13 +14,13 @@ pipeline {
                 ## Clean up any existing virtual environment
                 rm -rf $VENV_PATH
                     
-                # sudo apt-get update
-                # sudo apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
-                # sudo apt install python3-pip -y
-                ## sudo apt install python3-venv -y
+                #  apt-get update
+                #  apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
+                #  apt install python3-pip -y
+                ##  apt install python3-venv -y
                 
-                sudo systemctl restart docker.service
-                sudo python3 -m venv local
+                systemctl restart docker.service
+                python3 -m venv local
                 . $VENV_ACTIVATE
 
                 # Verify
@@ -44,7 +44,7 @@ pipeline {
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
-                sudo pip install -U pip
+                pip install -U pip
 
                 '''
                 
@@ -63,7 +63,7 @@ pipeline {
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
-                sudo pip install ansible-core
+                pip install ansible-core
 
                 '''
                 
@@ -81,11 +81,11 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
 
-                sudo pip install git+https://opendev.org/openstack/kolla-ansible@master
-                sudo pip install 'jinja2>=3.0.0'
-                sudo pip install 'netaddr'
-                sudo pip install 'python-openstackclient'
-                sudo kolla-ansible install-deps
+                pip install git+https://opendev.org/openstack/kolla-ansible@master
+                pip install 'jinja2>=3.0.0'
+                pip install 'netaddr'
+                pip install 'python-openstackclient'
+                kolla-ansible install-deps
 
                 '''
                 
@@ -100,37 +100,37 @@ pipeline {
                 #!/usr/bin/bash
 
                 . $VENV_ACTIVATE                
-                sudo mkdir -p /etc/kolla
-                sudo mkdir -p /etc/kolla/inventory/
-                sudo chown $(whoami):$(whoami) /etc/kolla
+                mkdir -p /etc/kolla
+                mkdir -p /etc/kolla/inventory/
+                chown $(whoami):$(whoami) /etc/kolla
                 if [ ! -d "/usr/local/share/kolla-ansible" ]; then
                    echo "Kolla-Ansible files not found! Ensure kolla-ansible is installed." >&2
                    exit 1
                 fi
                 
 
-                sudo cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
-                sudo cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/inventory/
+                cp -r /usr/local/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
+                cp -r /usr/local/share/kolla-ansible/ansible/inventory/* /etc/kolla/inventory/
                 
-                sudo sed -i 's/^#enable_zun:.*/enable_zun: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_kuryr:.*/enable_kuryr: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#containerd_configure_for_zun:.*/containerd_configure_for_zun: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_etcd:.*/enable_etcd: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#docker_configure_for_zun:.*/docker_configure_for_zun: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#kolla_base_distro:.*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#network_interface:.*/network_interface: "ens3"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.15"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_proxysql:.*/enable_proxysql: "no"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_ovn_distributed_fip:.*/neutron_ovn_distributed_fip: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_enable_ovn_agent.*/neutron_enable_ovn_agent: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_manila:.*/enable_manila: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_plugin_agent:.*/neutron_plugin_agent: "ovn"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_manila_backend_generic:.*/enable_manila_backend_generic: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "eth11"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_cinder_backend_nfs:.*/enable_cinder_backend_nfs: "yes"/g' /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_cinder_backend_lvm:.*/enable_cinder_backend_lvm: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_zun:.*/enable_zun: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_kuryr:.*/enable_kuryr: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#containerd_configure_for_zun:.*/containerd_configure_for_zun: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_etcd:.*/enable_etcd: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#docker_configure_for_zun:.*/docker_configure_for_zun: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#kolla_base_distro:.*/kolla_base_distro: "ubuntu"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_haproxy:.*/enable_haproxy: "no"/g' /etc/kolla/globals.yml
+                sed -i 's/^#network_interface:.*/network_interface: "ens3"/g' /etc/kolla/globals.yml
+                sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "ens11"/g' /etc/kolla/globals.yml
+                sed -i 's/^#kolla_internal_vip_address:.*/kolla_internal_vip_address: "192.168.7.15"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_proxysql:.*/enable_proxysql: "no"/g' /etc/kolla/globals.yml
+                sed -i 's/^#neutron_ovn_distributed_fip:.*/neutron_ovn_distributed_fip: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#neutron_enable_ovn_agent.*/neutron_enable_ovn_agent: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_manila:.*/enable_manila: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#neutron_plugin_agent:.*/neutron_plugin_agent: "ovn"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_manila_backend_generic:.*/enable_manila_backend_generic: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#neutron_external_interface:.*/neutron_external_interface: "eth11"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_cinder_backend_nfs:.*/enable_cinder_backend_nfs: "yes"/g' /etc/kolla/globals.yml
+                sed -i 's/^#enable_cinder_backend_lvm:.*/enable_cinder_backend_lvm: "yes"/g' /etc/kolla/globals.yml
 
                 '''
                 
@@ -147,7 +147,7 @@ pipeline {
                 export http_proxy="http://192.168.11.10:800"
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
-                sudo kolla-genpwd -p /etc/kolla/passwords.yml
+                kolla-genpwd -p /etc/kolla/passwords.yml
                 
                 '''
                 
@@ -166,7 +166,8 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
-                sudo kolla-ansible bootstrap-servers -i /etc/kolla/all-in-one -vvv
+                . $VENV_ACTIVATE
+                kolla-ansible bootstrap-servers -i /etc/kolla/all-in-one -vvv
                 '''
                 
             }
@@ -184,7 +185,8 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
-                sudo kolla-ansible prechecks -i /etc/kolla/all-in-one -vvv
+                . $VENV_ACTIVATE                
+                kolla-ansible prechecks -i /etc/kolla/all-in-one -vvv
                 '''
                 
             }
@@ -202,7 +204,8 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
                 sudo systemctl restart docker.service
-                sudo kolla-ansible deploy -i /etc/kolla/all-in-one -vvv
+                . $VENV_ACTIVATE
+                kolla-ansible deploy -i /etc/kolla/all-in-one -vvv
                 '''
                 
             }
@@ -223,7 +226,7 @@ pipeline {
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
 
                 # Run the kolla-ansible post-deploy script
-                sudo kolla-ansible post-deploy -i /etc/kolla/all-in-one -vvv
+                kolla-ansible post-deploy -i /etc/kolla/all-in-one -vvv
 
                 # . the OpenRC file for Octavia
                 . /etc/kolla/octavia-openrc.sh
