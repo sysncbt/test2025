@@ -87,7 +87,7 @@ pipeline {
                 fi
 
                 # Copy config templates
-                cp -r "$KOLLA_SHARE/etc_examples/kolla/*" "$VENV_PATH/etc/kolla/"
+                cp -r "$KOLLA_SHARE/etc_examples/kolla/"* "$VENV_PATH/etc/kolla/"
                 cp -r "$KOLLA_SHARE/ansible/inventory/all-in-one" "$VENV_PATH/etc/kolla/"
 
                 # Customize globals.yml
