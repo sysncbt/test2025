@@ -136,7 +136,7 @@ pipeline {
                 kolla-genpwd -p ./passwords.yml
 
                 sudo cp ./passwords.yml /etc/kolla/
-                sudo chmod 600 /etc/kolla/passwords.yml
+                sudo chmod 644 /etc/kolla/passwords.yml
                 '''
             }
         }
