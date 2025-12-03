@@ -51,7 +51,8 @@ pipeline {
                 export https_proxy="http://192.168.11.10:800"
                 export no_proxy="localhost,127.0.0.0/8,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12"
 
-                pip install 'git+https://opendev.org/openstack/kolla-ansible@master'
+                #pip install 'git+https://opendev.org/openstack/kolla-ansible@master'
+                pip install 'git+https://opendev.org/openstack/kolla-ansible@stable/2024.1'
                 pip install 'jinja2>=3.0.0'
                 pip install 'netaddr'
                 pip install 'python-openstackclient'
