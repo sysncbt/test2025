@@ -110,8 +110,8 @@ pipeline {
                 sudo sed -i 's/^#enable_manila_backend_generic:.*/enable_manila_backend_generic: "yes"/'g /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_cinder_backend_nfs:.*/enable_cinder_backend_nfs: "yes"/'g /etc/kolla/globals.yml
                 sudo sed -i 's/^#enable_cinder_backend_lvm:.*/enable_cinder_backend_lvm: "yes"/'g /etc/kolla/globals.yml
-                sudo sed -i 's/^#enable_package_install:.*/enable_package_install: "no"/'g /etc/kolla/globals.yml || \
-                echo 'enable_package_install: "no"' | sudo tee -a /etc/kolla/globals.yml
+                sudo sed -i 's/^#enable_package_install:.*/enable_package_install: "no"/'g /etc/kolla/globals.yml \
+                || echo 'enable_package_install: "no"' | sudo tee -a /etc/kolla/globals.yml
 
                 '''
             }
