@@ -44,9 +44,9 @@ pipeline {
             steps {
                 sh '''
                 #!/bin/bash
-                sudo apt update
-                sudo apt install -y git iputils-ping tzdata docker.io
-                sudo systemctl enable --now docker
+                #sudo apt update
+                #sudo apt install -y git iputils-ping tzdata docker.io
+                #sudo systemctl enable --now docker
                 '''
             }
         }
