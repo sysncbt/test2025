@@ -99,7 +99,8 @@ pipeline {
                 sed -i 's/^#enable_manila_backend_generic:.*/enable_manila_backend_generic: "yes"/'g $VENV_PATH/etc/kolla/globals.yml
                 sed -i 's/^#enable_cinder_backend_nfs:.*/enable_cinder_backend_nfs: "yes"/'g $VENV_PATH/etc/kolla/globals.yml
                 sed -i 's/^#enable_cinder_backend_lvm:.*/enable_cinder_backend_lvm: "yes"/'g $VENV_PATH/etc/kolla/globals.yml
-                sed -i '$a\\debian_pkg_install: []\nubuntu_pkg_removals: []' $VENV_PATH/etc/kolla/globals.yml
+                sed -i '$a\\debian_pkg_install: []' $VENV_PATH/etc/kolla/globals.yml
+                sed -i '$a\\ubuntu_pkg_removals: []' $VENV_PATH/etc/kolla/globals.yml
 
                 '''
             }
