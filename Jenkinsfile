@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     environment {
-        VENV_PATH = "${WORKSPACE}"
+        VENV_PATH = "${WORKSPACE}/local"
         VENV_ACTIVATE = "${WORKSPACE}/local/bin/activate"
     }
     stages {
@@ -12,7 +12,7 @@ pipeline {
                 #!/usr/bin/bash
 
                 # Clean up any existing virtual environment
-                rm -rf $VENV_PATH*
+                rm -rf $VENV_PATH
                     
                 # sudo apt-get update
                 # sudo apt-get install python3 python3-dev libffi-dev gcc libssl-dev docker.io -y
