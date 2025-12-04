@@ -103,6 +103,16 @@ pipeline {
                 sed -i '$a\\debian_pkg_install: []' $VENV_PATH/etc/kolla/globals.yml
                 sed -i '$a\\ubuntu_pkg_removals: []' $VENV_PATH/etc/kolla/globals.yml
 
+
+                # Proxy settings for Zun containers
+                sudo sed -i '$a\kolla_http_proxy: "http://192.168.11.10:800"' $VENV_PATH/etc/kolla/globals.yml
+                sudo sed -i '$a\kolla_https_proxy: "https://192.168.11.10:800"' $VENV_PATH/etc/kolla/globals.yml
+                sudo sed -i '$a\kolla_no_proxy: "localhost,127.0.0.1,192.168.7.15"' $VENV_PATH/etc/kolla/globals.yml
+                sudo sed -i '$a\container_http_proxy: ""' $VENV_PATH/etc/kolla/globals.yml
+                sudo sed -i '$a\container_https_proxy: ""' $VENV_PATH/etc/kolla/globals.yml
+                sudo sed -i '$a\container_no_proxy: "localhost,127.0.0.1,192.168.7.15"' $VENV_PATH/etc/kolla/globals.yml
+                sudo sed -i '$a\no_proxy: "localhost,127.0.0.1,{{ kolla_internal_vip_address }},{{ docker_registry }},192.168.7.15"' $VENV_PATH/etc/kolla/globals.yml
+
                 '''
             }
         }
@@ -208,10 +218,42 @@ pipeline {
                 if [ -f $VENV_PATH/etc/kolla/octavia-openrc.sh ]; then
                     . $VENV_PATH/etc/kolla/octavia-openrc.sh
                     env | grep -E "^OS_"
-                fi
+                fi             
+
                 '''
             }
         }
+
+        stage('Copying Kolla Impor. Config Files on Host') {
+            steps {
+                echo '-- Copying Kolla configuration into /etc/kolla --'
+                sh '''
+                #!/bin/bash
+                . "$VENV_ACTIVATE"
+
+                sudo mkdir -p /etc/kolla
+
+                # Copy core config files
+                sudo cp "$VENV_PATH/etc/kolla/globals.yml" /etc/kolla/
+                sudo cp "$VENV_PATH/etc/kolla/passwords.yml" /etc/kolla/
+                sudo cp "$VENV_PATH/etc/kolla/all-in-one" /etc/kolla/
+
+                # Copy OpenRC files (optional but useful)
+                sudo cp "$VENV_PATH/etc/kolla/"*.openrc*.sh /etc/kolla/ 2>/dev/null || true
+
+                # Set secure permissions
+                sudo chown -R root:root /etc/kolla
+                sudo chmod 600 /etc/kolla/passwords.yml
+                sudo chmod 644 /etc/kolla/globals.yml /etc/kolla/all-in-one
+                sudo chmod 600 /etc/kolla/*.openrc*.sh 2>/dev/null || true
+
+                # Verify
+                echo "Config copied:"
+                ls -ltr /etc/kolla/
+                '''
+            }
+        }
+
     }
 }
 
