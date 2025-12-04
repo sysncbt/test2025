@@ -105,8 +105,8 @@ pipeline {
 
 
                 # Proxy settings for Zun containers
-                sudo sed -i '$a\\kolla_http_proxy: "http:\/\/192.168.11.10:800"' $VENV_PATH/etc/kolla/globals.yml
-                sudo sed -i '$a\\kolla_https_proxy: "https:\/\/192.168.11.10:800"' $VENV_PATH/etc/kolla/globals.yml
+                sudo sed -i '$a\\kolla_http_proxy: "http://192.168.11.10:800"' $VENV_PATH/etc/kolla/globals.yml
+                sudo sed -i '$a\\kolla_https_proxy: "https://192.168.11.10:800"' $VENV_PATH/etc/kolla/globals.yml
                 sudo sed -i '$a\\kolla_no_proxy: "localhost,127.0.0.1,192.168.7.15"' $VENV_PATH/etc/kolla/globals.yml
                 sudo sed -i '$a\\container_http_proxy: ""' $VENV_PATH/etc/kolla/globals.yml
                 sudo sed -i '$a\\container_https_proxy: ""' $VENV_PATH/etc/kolla/globals.yml
